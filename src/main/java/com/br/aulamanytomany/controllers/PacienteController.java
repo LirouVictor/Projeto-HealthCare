@@ -1,0 +1,46 @@
+package com.br.aulamanytomany.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.br.aulamanytomany.dto.PacienteDTO;
+import com.br.aulamanytomany.entities.Paciente;
+import com.br.aulamanytomany.services.PacienteService;
+
+@RestController
+@RequestMapping("/paciente")
+public class PacienteController {
+
+    @Autowired
+    PacienteService service;
+
+    @GetMapping("/lista")
+    public ResponseEntity<List<PacienteDTO>> listar() {
+        return new ResponseEntity<>(service.listar(), HttpStatus.OK);
+    }
+
+    @PostMapping("/cadastro")
+    public ResponseEntity<String> cadastrar(Paciente paciente) {
+        return new ResponseEntity<>(service.cadastro(paciente), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/excluir/{id}")
+    public ResponseEntity<String> excluir(@PathVariable("id") int id) {
+        return new ResponseEntity<>(service.excluir(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<String> editar(Paciente newPaciente, @PathVariable("id") int id) {
+        return new ResponseEntity<>(service.editar(newPaciente, id), HttpStatus.OK);
+    }
+}
